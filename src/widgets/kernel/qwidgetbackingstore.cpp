@@ -518,6 +518,9 @@ static inline QRect widgetRectFor(QWidget *widget, const QRegion &) { return wid
 template <class T>
 void QWidgetBackingStore::markDirty(const T &r, QWidget *widget, UpdateTime updateTime, BufferState bufferState)
 {
+    // Take both the old and new drawing path for now!
+    widget->style()->markDirty(widget, QRegion(), updateTime == UpdateTime::UpdateNow);
+
     Q_ASSERT(tlw->d_func()->extra);
     Q_ASSERT(tlw->d_func()->extra->topextra);
     Q_ASSERT(!tlw->d_func()->extra->topextra->inTopLevelResize);

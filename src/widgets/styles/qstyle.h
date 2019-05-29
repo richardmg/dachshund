@@ -452,6 +452,14 @@ public:
     virtual QRect subControlRect(ComplexControl cc, const QStyleOptionComplex *opt,
                                  SubControl sc, const QWidget *widget = nullptr) const = 0;
 
+    virtual bool isNewAndFancy() { return false; }
+    virtual void markDirty(const QWidget *widget, const QRegion &region, bool updateNow = false)
+    {
+        Q_UNUSED(widget);
+        Q_UNUSED(region);
+        Q_UNUSED(updateNow);
+    }
+
     enum PixelMetric {
         PM_ButtonMargin,
         PM_ButtonDefaultIndicator,
