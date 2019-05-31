@@ -1,10 +1,11 @@
-#include "quickbackingstore.h"
+#include "qquickscenegraphadaptor.h"
 
 #include <QStyleOption>
 #include <QLineEdit>
 #include <QToolButton>
 #include <QFocusFrame>
 
+#include <QQuickStyle>
 #include <QtQuickTemplates2/private/qquicktoolbutton_p.h>
 #include <QtQuickTemplates2/private/qquicktextfield_p.h>
 
@@ -12,7 +13,7 @@
 
 #include <QDebug>
 
-void QuickBackingStore::markDirty(const QWidget *widget, const QRegion &region, bool updateNow)
+void QQuickSceneGraphAdaptor::markDirty(const QWidget *widget, const QRegion &region, bool updateNow)
 {
     Q_UNUSED(region);
     Q_UNUSED(updateNow);
@@ -31,7 +32,7 @@ void QuickBackingStore::markDirty(const QWidget *widget, const QRegion &region, 
     controlsStyle->syncControl(control, controlWidget);
 }
 
-void *QuickBackingStore::resolveControl(const QWidget *widget) const
+void *QQuickSceneGraphAdaptor::resolveControl(const QWidget *widget) const
 {
     if (!widget)
         return nullptr;
@@ -55,12 +56,12 @@ void *QuickBackingStore::resolveControl(const QWidget *widget) const
     controlsStyle->moveControl(control, widget->pos());
 
     knownWidgets.insert(widget, control);
-    const_cast<QWidget *>(widget)->installEventFilter(const_cast<QuickBackingStore *>(this));
+    const_cast<QWidget *>(widget)->installEventFilter(const_cast<QQuickSceneGraphAdaptor *>(this));
 
     return control;
 }
 
-bool QuickBackingStore::eventFilter(QObject *watched, QEvent *event)
+bool QQuickSceneGraphAdaptor::eventFilter(QObject *watched, QEvent *event)
 {
     QWidget *widget = qobject_cast<QWidget *>(watched);
 
@@ -83,20 +84,27 @@ bool QuickBackingStore::eventFilter(QObject *watched, QEvent *event)
     return false;
 }
 
-void QuickBackingStore::paintControl(const void *srcControl, QPainter *painter, const QPoint &targetOffset, const QRegion &sourceRegion)
+void QQuickSceneGraphAdaptor::paintControl(const void *srcControl, QPainter *painter, const QPoint &targetOffset, const QRegion &sourceRegion)
 {
     QWidget *w = static_cast<QWidget *>(const_cast<void *>(srcControl));
     w->setAttribute(Qt::WA_WState_Visible);
     w->render(painter, targetOffset, sourceRegion);
 }
 
-void QuickBackingStore::controlClicked(void *srcControl)
+void QQuickSceneGraphAdaptor::controlClicked(void *srcControl)
 {
     QWidget *widget = static_cast<QWidget *>(srcControl);
     QTest::mouseClick(widget, Qt::LeftButton);
 }
 
-QSize QuickBackingStore::sizeFromContents(QStyle::ContentsType type, const QStyleOption *opt, const QSize &contentsSize, const QWidget *widget) const
+void QQuickSceneGraphAdaptor::setStyle(const QString &style)
+{
+    // For now we mix QStyle and AbstactSceneGraph into one, just
+    // so we don't need two plugins while prototyping
+    QQuickStyle::setStyle(style);
+}
+
+QSize QQuickSceneGraphAdaptor::sizeFromContents(QStyle::ContentsType type, const QStyleOption *opt, const QSize &contentsSize, const QWidget *widget) const
 {
     // Here we choose whether to use the size hint of the control or the widget. It
     // would probably make most sense to always use the size of the control, but

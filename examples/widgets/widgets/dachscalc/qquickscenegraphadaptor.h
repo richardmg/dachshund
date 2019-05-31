@@ -6,11 +6,13 @@
 
 #include "qquickcontrolsstyle.h"
 
-class QuickBackingStore : public QProxyStyle, QStyle2CallbackInterface
+class QQuickSceneGraphAdaptor : public QProxyStyle, QStyle2CallbackInterface
 {
     Q_OBJECT
 
 public:
+
+    void setStyle(const QString &style);
 
     QSize sizeFromContents(QStyle::ContentsType type, const QStyleOption *opt, const QSize &contentsSize,
                            const QWidget *widget = nullptr) const override;

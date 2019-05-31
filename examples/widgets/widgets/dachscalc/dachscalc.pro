@@ -5,15 +5,15 @@ QT += testlib
 HEADERS       = button.h \
                 calculator.h \
                 itemfactory.h \
+                qquickscenegraphadaptor.h \
                 widgetimageitem.h \
-                quickbackingstore.h \
                 qquickcontrolsstyle.h
 SOURCES       = button.cpp \
                 calculator.cpp \
                 itemfactory.cpp \
                 main.cpp \
+                quickscenegraphadaptor.cpp \
                 widgetimageitem.cpp \
-                quickbackingstore.cpp \
                 qquickcontrolsstyle.cpp
 
 RESOURCES += 	style/widgetimage.qml \

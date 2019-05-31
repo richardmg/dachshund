@@ -1,8 +1,7 @@
 #include <QApplication>
-#include <QQuickStyle>
 
 #include "calculator.h"
-#include "quickbackingstore.h"
+#include "qquickscenegraphadaptor.h"
 
 /*
  * Issues:
@@ -27,10 +26,13 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    app.setStyle(new QuickBackingStore);
 
-    QQuickStyle::setStyle("Material");
-//    QQuickStyle::setStyle("Universal");
+    QQuickSceneGraphAdaptor *scenegraph = new QQuickSceneGraphAdaptor;
+    scenegraph->setStyle("Material");
+//    scenegraph->setStyle("Universal");
+
+    // Should really be qApp->setSceneGraph(scenegraph);
+    qApp->setStyle(scenegraph);
 
     Calculator calc;
     calc.show();
