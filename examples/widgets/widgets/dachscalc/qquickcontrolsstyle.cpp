@@ -1,4 +1,4 @@
-#include "qstyle2.h"
+#include "qquickcontrolsstyle.h"
 
 #include <QStyleOption>
 #include <QLineEdit>
@@ -17,12 +17,12 @@
 
 #include <QDebug>
 
-QStyle2::QStyle2(QStyle2CallbackInterface *callback)
+QQuickControlsStyle::QQuickControlsStyle(QStyle2CallbackInterface *callback)
     : callback(callback)
 {
 }
 
-void *QStyle2::createControl(const QWidget *widget, void *parentControl)
+void *QQuickControlsStyle::createControl(const QWidget *widget, void *parentControl)
 {
     QQuickItem *item = itemFactory.createQuickItem(widget, static_cast<QQuickItem *>(parentControl));
 
@@ -35,7 +35,7 @@ void *QStyle2::createControl(const QWidget *widget, void *parentControl)
     return item;
 }
 
-void QStyle2::clicked()
+void QQuickControlsStyle::clicked()
 {
     // We take a short-cut, and use the test lib to send a mouse click to the widget. In
     // the end, we should probably create QPA level events instead so that all our events
@@ -50,7 +50,7 @@ void QStyle2::clicked()
     callback->controlClicked(srcControl);
 }
 
-void QStyle2::drawControl(WidgetImageItem *imageItem, const QWidget *widget) const
+void QQuickControlsStyle::drawControl(WidgetImageItem *imageItem, const QWidget *widget) const
 {
     QImage &backingstore = imageItem->m_image;
     if (backingstore.size() != widget->size()) {
@@ -64,7 +64,7 @@ void QStyle2::drawControl(WidgetImageItem *imageItem, const QWidget *widget) con
     imageItem->update();
 }
 
-void QStyle2::syncControl(void *dstControl, const QWidget *widget)
+void QQuickControlsStyle::syncControl(void *dstControl, const QWidget *widget)
 {
     // todo: the idea is that we pass a style options struct to this function, and
     // not a widget. And then we switch on the type to figure out how to sync.
@@ -87,13 +87,13 @@ void QStyle2::syncControl(void *dstControl, const QWidget *widget)
     item->polish();
 }
 
-QSize QStyle2::controlSize(void *dstControl) const
+QSize QQuickControlsStyle::controlSize(void *dstControl) const
 {
     QQuickItem *item = static_cast<QQuickItem *>(dstControl);
     return QSizeF(item->implicitWidth(), item->implicitHeight()).toSize();
 }
 
-void QStyle2::resizeControl(void *dstControl, QSize size)
+void QQuickControlsStyle::resizeControl(void *dstControl, QSize size)
 {
     QQuickItem *item = static_cast<QQuickItem *>(dstControl);
     if (!item->parentItem()) {
@@ -106,7 +106,7 @@ void QStyle2::resizeControl(void *dstControl, QSize size)
     item->polish();
 }
 
-void QStyle2::moveControl(void *dstControl, QPoint pos)
+void QQuickControlsStyle::moveControl(void *dstControl, QPoint pos)
 {
     QQuickItem *item = static_cast<QQuickItem *>(dstControl);
     if (!item->parentItem()) {

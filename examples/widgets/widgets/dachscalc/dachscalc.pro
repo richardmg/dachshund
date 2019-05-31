@@ -3,19 +3,22 @@ QT += quick quick-private quickcontrols2 quicktemplates2 quicktemplates2-private
 QT += testlib
 
 HEADERS       = button.h \
-                adaptorstyle.h \
                 calculator.h \
                 itemfactory.h \
-                qstyle2.h \
-                widgetimageitem.h
+                widgetimageitem.h \
+                quickbackingstore.h \
+                qquickcontrolsstyle.h
 SOURCES       = button.cpp \
-                adaptorstyle.cpp \
                 calculator.cpp \
                 itemfactory.cpp \
                 main.cpp \
-                qstyle2.cpp \
-                widgetimageitem.cpp
+                widgetimageitem.cpp \
+                quickbackingstore.cpp \
+                qquickcontrolsstyle.cpp
 
 RESOURCES += 	style/widgetimage.qml \
                 style/qlineedit.qml \
                 style/button.qml
+# install
+target.path = $$[QT_INSTALL_EXAMPLES]/widgets/widgets/dachscalc
+INSTALLS += target

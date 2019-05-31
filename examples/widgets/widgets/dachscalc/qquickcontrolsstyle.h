@@ -18,13 +18,13 @@ public:
     virtual void controlClicked(void *srcControl);
 };
 
-class QStyle2 : public QObject
+class QQuickControlsStyle : public QObject
 {
 
     Q_OBJECT
 
 public:
-    QStyle2(QStyle2CallbackInterface *callback);
+    QQuickControlsStyle(QStyle2CallbackInterface *callback);
 
     void *createControl(const QWidget *widget, void *parentControl);
     void syncControl(void *dstControl, const QWidget *widget);

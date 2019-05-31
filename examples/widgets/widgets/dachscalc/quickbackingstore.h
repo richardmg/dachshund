@@ -4,9 +4,9 @@
 #include <QProxyStyle>
 #include <QPointer>
 
-#include "qstyle2.h"
+#include "qquickcontrolsstyle.h"
 
-class AdaptorStyle : public QProxyStyle, QStyle2CallbackInterface
+class QuickBackingStore : public QProxyStyle, QStyle2CallbackInterface
 {
     Q_OBJECT
 
@@ -25,7 +25,7 @@ public:
     void controlClicked(void *srcControl) override;
 
 private:
-    mutable QPointer<QStyle2> style2 = new QStyle2(this);
+    mutable QPointer<QQuickControlsStyle> controlsStyle = new QQuickControlsStyle(this);
     mutable QHash<const QWidget *, void *> knownWidgets;
 
     void *resolveControl(const QWidget *widget) const;

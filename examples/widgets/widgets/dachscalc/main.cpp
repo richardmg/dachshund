@@ -2,7 +2,7 @@
 #include <QQuickStyle>
 
 #include "calculator.h"
-#include "adaptorstyle.h"
+#include "quickbackingstore.h"
 
 /*
  * Issues:
@@ -27,7 +27,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    app.setStyle(new AdaptorStyle);
+    app.setStyle(new QuickBackingStore);
 
     QQuickStyle::setStyle("Material");
 //    QQuickStyle::setStyle("Universal");
